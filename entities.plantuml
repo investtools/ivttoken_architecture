@@ -1,0 +1,53 @@
+@startuml entities
+
+note top of Role
+An authorization on the platform
+
+Examples: manage users, manage schools,
+configure the system ...
+end note
+class Role {
+
+}
+
+note top of Profile
+Group of roles - makes easier the
+management of authorzations on the
+platform and also allow us to
+define which user has which "profile",
+like Governamental Entities, ISP...
+end note
+class Profile {
+    roles: Role[]
+}
+
+Profile --> Role : roles
+
+
+class User {
+    principal: String
+    email: String
+    active: boolean
+}
+
+User --> Profile
+
+class School {
+
+}
+
+note top of Provider
+aka ISP
+end note
+class Provider {
+
+}
+
+note top of GovEntity
+Governamental entity
+end note
+class GovEntity {
+
+}
+
+@enduml

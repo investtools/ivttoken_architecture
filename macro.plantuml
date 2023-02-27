@@ -1,0 +1,104 @@
+@startuml macro
+
+
+cloud CloudProvider as "Cloud Provider" {
+
+    note top of FrontEnd
+    The web user interface of our solution.
+
+    Can be deployed on a storage solution (like AWS S3)
+    or on a HTTP server like Apache or Nginx.
+
+    Based on open source frontend frameworks like
+    Angular, Vue.js or React.js.
+    end note
+    component FrontEnd as "Public FrontEnd" #orange{
+
+    }
+
+    note top of BackOffice
+    Administrative web interface of our solution.
+
+    As the FrontEnd, can be deployed on a storage solution
+    or on a HTTP Server like Apache or Nginx.
+
+    Based on open source frontend frameworks like
+    Angular, Vue.js or React.js
+    end note
+    component BackOffice as "Back Office - Private Frontend" #orange {
+
+    }
+
+    node APINode as "API Node" {
+
+        note top of Core 
+        Main REST APIs used by our solution
+        end note
+        component Core as "Core API" #orange {
+
+        }
+
+    }
+
+    FrontEnd --> Core :REST
+    BackOffice --> Core :REST
+
+    note top of MOM
+    For asynchronous processing, can be
+    used solutions like Apache Kafka, AWS SQS,
+    AMQP...
+    end note
+    component MOM {
+
+    }
+
+    MOM --> Core :async events
+
+    note top of IdentityProvider
+    Can be used an off the shelf solution
+    like Keycloak based on open standards like
+    XAML, OpenID...
+    end note
+    component IdentityProvider {
+
+    }
+
+    Core -> IdentityProvider : authentication and authorization
+
+    note top of Database
+    At this moment any open source solution
+    like Postgres or MySQL can be used
+    on our platform, becase we'll only use
+    common relational database functionalities
+    end note
+    component Database as "Relational database" {
+
+    }
+
+    Core --> Database
+
+    note top of Storage
+    Solutions like AWS S3, Google Storage
+    to store files and auditaable information
+    end note
+    component Storage {
+
+    }
+
+    Core --> Storage
+
+    Core --> Ethereum
+
+}
+
+cloud Ethereum {
+    component MultiSignature #orange {
+
+    }
+
+    component TokenSmartContract #orange {
+
+    }
+}
+
+@enduml
