@@ -29,7 +29,6 @@ jobs:
       run: |
         mkdir -p diagrams
         java -jar plantuml.jar -tpng micro_vision_architecture.puml -o diagrams/
-        java -jar plantuml.jar -tpng entities.plantuml -o diagrams/
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
