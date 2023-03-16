@@ -28,7 +28,7 @@ jobs:
     - name: Generate UML diagrams
       run: |
         mkdir -p diagrams
-        java -jar plantuml.jar -tpng micro_vision_architecture.puml -o diagrams/
+        java -jar plantuml.jar -tpng macro.plantuml -o diagrams/
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
