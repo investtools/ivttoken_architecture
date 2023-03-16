@@ -1,0 +1,38 @@
+name: Generate UML Artifact
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  generate_uml:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup Java
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+
+    - name: Download PlantUML JAR
+      run: wget "https://downloads.sourceforge.net/project/plantuml/plantuml.jar" -O plantuml.jar
+
+    - name: Generate UML diagrams
+      run: |
+        mkdir -p diagrams
+        java -jar plantuml.jar -tpng micro_vision_architecture.puml -o diagrams/
+        java -jar plantuml.jar -tpng entities.plantuml -o diagrams/
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: uml-diagrams
+        path: diagrams/
