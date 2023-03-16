@@ -1,37 +1,19 @@
-name: Generate UML Artifact
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
+name: generate plantuml
+on: push
 jobs:
-  generate_uml:
+  generate_plantuml:
     runs-on: ubuntu-latest
-
+    name: plantuml
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Setup Java
-      uses: actions/setup-java@v2
+    - name: checkout
+      uses: actions/checkout@v1
       with:
-        java-version: '11'
-        distribution: 'adopt'
-
-    - name: Download PlantUML JAR
-      run: wget "https://downloads.sourceforge.net/project/plantuml/plantuml.jar" -O plantuml.jar
-
-    - name: Generate UML diagrams
-      run: |
-        mkdir -p diagrams
-        java -jar plantuml.jar -tpng macro.plantuml -o diagrams/
-
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v2
+        fetch-depth: 1
+    - name: plantuml
+      id: plantuml
+      uses: grassedge/generate-plantuml-action@v1.5
       with:
-        name: uml-diagrams
-        path: diagrams/
+        path: example
+        message: "Render PlantUML files"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
